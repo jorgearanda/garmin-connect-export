@@ -5,7 +5,8 @@ File: gcexport.py
 Author: Kyle Krafka (https://github.com/kjkjava/), 2015
 Modified by Jorge Aranda (https://github.com/jorgearanda/)
 
-Description: Export your fitness data from Garmin Connect. See README.md for more information.
+Description: Export your fitness data from Garmin Connect.
+See README.md for more information.
 """
 
 import argparse
@@ -22,7 +23,6 @@ from urllib.request import HTTPCookieProcessor, build_opener, Request
 from urllib.error import HTTPError
 
 MAX_REQUESTS = 100  # Enforced by Garmin
-VERSION = '1.1.0'
 
 url_gc_login = 'https://sso.garmin.com/sso/login?service=https%3A%2F%2Fconnect.garmin.com%2Fpost-auth%2Flogin&' + \
     'webhost=olaxpw-connect04&source=https%3A%2F%2Fconnect.garmin.com%2Fen-US%2Fsignin&' + \
@@ -48,29 +48,33 @@ def parse_args():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--version', help="print version and exit", action="store_true")
-    parser.add_argument('--username', help="your Garmin Connect username (otherwise, you will be prompted)", nargs='?')
-    parser.add_argument('--password', help="your Garmin Connect password (otherwise, you will be prompted)", nargs='?')
+    parser.add_argument(
+        '--username',
+        help="your Garmin Connect username (otherwise, you will be prompted)",
+        nargs='?')
+    parser.add_argument(
+        '--password',
+        help="your Garmin Connect password (otherwise, you will be prompted)",
+        nargs='?')
 
-    parser.add_argument('-c', '--count', nargs='?', default="all",
-        help="number of recent activities to download, or 'all' (default: 'all')")
+    parser.add_argument(
+        '-c','--count', nargs='?', default="all",
+        help="number of recent activities to get, or 'all' (default: 'all')")
 
-    parser.add_argument('-f', '--format', nargs='?', choices=['gpx', 'tcx'], default="gpx",
+    parser.add_argument(
+        '-f', '--format', nargs='?', choices=['gpx', 'tcx'], default="gpx",
         help="export format; can be 'gpx' or 'tcx' (default: 'gpx')")
 
-    parser.add_argument('-d', '--directory', nargs='?', default=activities_directory,
-        help="the directory to export to (default: './YYYY-MM-DD_garmin_connect_export')")
+    parser.add_argument(
+        '-d', '--directory', nargs='?', default=activities_directory,
+        help="target (default: './YYYY-MM-DD_garmin_connect_export')")
 
-    parser.add_argument('-ot', '--originaltime',
+    parser.add_argument(
+        '-ot', '--originaltime',
         help="will set downloaded file time to the activity start time",
         action="store_true")
 
     args = parser.parse_args()
-
-    if args.version:
-        print(argv[0] + ", version " + VERSION)
-        exit(0)
-
     return args
 
 
